@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'title_page_add' | trans }}{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <form method="post" accept-charset="utf-8">
+        <div class="form-group" >
+            <input data-path="{{path('movie_code_search')}}" id="search" class="form-control form-control-lg" type="text" name="ajaxsearch" placeholder="{{ 'placeholder_search_movie' | trans }}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+        </div>
+    </form>
+    <div id="results"></div>
+
+    {% if movie and posters is not null %}
+
+        <div class="row mt-4">
+            <div class="col-lg-4 text-center">
+                <img src="{{ posters.big }}" width="300px"> <br>
+            </div>
+            <div class="col-lg-8">
+                {{ form_start(form) }}
+
+                {{ form_row(form.title, {value : movie.title}) }}
+                <div class="row">
+                    <div class="col">
+                        {{ form_row(form.releaseDate, {value : movie.release_date }) }}
+                    </div>
+                        <div class="col">
+                        {{ form_row(form.duration, {value : movie.runtime}) }} ({{ (movie.runtime * 60) | date('H \\h i', '+00:00 GMT')}})
+                    </div>
+                </div>
+                {{ form_row(form.genre, {value : movie.genres}) }}
+                <div class="row">
+                    <div class="col">
+                        {{ form_row(form.rating, {value : 0}) }}
+                    </div>
+                    <div class="col">
+                        {{ form_row(form.status, {value : 3}) }}
+                    </div>
+                </div>
+                {{ form_row(form.synopsis, {value : movie.overview | raw}) }}
+                <button class="btn btn-primary mt-4">{{ button_label|default('label_save' | trans) }}</button>
+                <span class="invisible">{{ form_row(form.poster, {value : posters.big}) }}</span>
+                <span class="invisible">{{ form_row(form.tmdbId, {value : movie.id}) }}</span>
+                {{ form_end(form) }}
+            </div>
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+<script src="/js/addMovie.js"></script>
+{% endblock %}

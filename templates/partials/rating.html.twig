@@ -1,0 +1,12 @@
+<span class="rating">
+    {% if rating == 1 %}
+        <i class="fas fa-heart"></i>
+    {% elseif rating == 2 %}
+        <i class="fas fa-heart"></i> <i class="fas fa-heart"></i>
+    {% elseif rating == 3 %}
+        <i class="fas fa-heart"></i> <i class="fas fa-heart"></i> <i class="fas fa-heart"></i>   
+    {% else %}
+        <span class="badge badge-pill badge-danger">{{ 'text_norating' | trans }}</span>
+    {% endif %}
+</span>
+

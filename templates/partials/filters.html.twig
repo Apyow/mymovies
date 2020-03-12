@@ -1,0 +1,42 @@
+{% if app.user %}
+<div class="all-filters">
+<div class="ui-group form-group">
+  <select class="filter selectpicker" data-width="fit">
+    <option value="*" class="selected">Genre</option>
+    {% for genre in genres %}
+        <option data-filter=".{{genre}}">{{genre}}</option>
+    {% endfor %}
+  </select>
+</div>
+<div class="ui-group form-group">  
+  <select class="filter selectpicker" data-width="fit">
+    <option value="*" class="selected">{{ 'label_rating' | trans }}</option>
+    {% set heart = "<i class='fa fa-heart' aria-hidden='true'></i>" %}
+    <option data-filter=".rate1" class="heart" data-content="{{ heart }}"></option>
+    <option data-filter=".rate2" class="heart" data-content="{{ heart }} {{ heart }}"></option>
+    <option data-filter=".rate3" class="heart" data-content="{{ heart }} {{ heart }} {{ heart }}"></option>
+  </select>
+</div>
+<div class="ui-group form-group">
+    <select class="filter selectpicker" data-width="fit">
+        <option value="*">{{ 'label_duration' | trans }}</option>
+        <option data-filter=".Less1h30">< 1h30</option>
+        <option data-filter=".Between1h30and1h50">1h30 - 1h50</option>
+        <option data-filter=".Between1h50and2h10">1h50 - 2h10</option>
+        <option data-filter=".Greater2h10">> 2h10</option>
+    </select>
+</div>
+<div class="ui-group form-group">
+    <select class="filter selectpicker" data-width="fit">
+        <option value="*">{{ 'label_status' | trans }}</option>
+        <option data-filter=".status1">{{ 'status_nothd' | trans }}</option>
+        <option data-filter=".status2">HD</option>
+    </select>
+</div>
+<div class="ui-group form-group">
+    <input class="form-control quicksearch mr-2" type="text" placeholder="{{ 'placeholder_search_movie' | trans }}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+    <i data-filter="*" class="fas fa-sync-alt mr-2 reset" title="Reset All"></i>
+    <span class="filter-count"></span> {{ 'text_movies' | trans }} 
+</div>
+
+{% endif %}

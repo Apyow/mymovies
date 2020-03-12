@@ -1,0 +1,45 @@
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.20/r-2.2.3/datatables.min.css"/>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.20/r-2.2.3/datatables.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/plug-ins/1.10.20/sorting/datetime-moment.js"></script>
+
+<script>
+$(document).ready( function () {
+  
+  $.fn.dataTable.moment('DD / MM / YYYY');
+  
+  var table = $('#movies').DataTable({
+    responsive: true,
+    pageLength: 50,
+    columnDefs: [
+      {
+        targets: 1,
+        render: function (data, type, row) {
+          var dateObj = new Date(data);
+          var momentObj = moment(dateObj);
+          return momentObj.format('DD / MM / YYYY')
+        }
+      }
+    ]
+  });
+} );
+
+$(function () {
+    $.fn.dataTable.moment('DD / MM / YYYY');
+    var table = $('#moviesInprogress').DataTable({
+        responsive: true,
+        paging:false,
+        info:false,
+        searching:false,
+        order: [[ 1, "asc" ]],
+        columnDefs: [{
+            targets: 1,
+            render: function (data, type, row) {
+                var dateObj = new Date(data);
+                var momentObj = moment(dateObj);
+                return momentObj.format('DD / MM / YYYY')
+            }
+        }]
+    });
+});
+</script>

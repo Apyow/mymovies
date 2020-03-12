@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'main_menu_user_create' | trans }}{% endblock %}
+
+{% block body %}
+<div class="container">
+        <h3>{{ 'main_menu_user_create' | trans }}</h3>
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button type="submit" class="btn btn-success">{{ 'text_create' | trans }}</button>
+        {{ form_end(form) }}
+</div>
+{% endblock %}

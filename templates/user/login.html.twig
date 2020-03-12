@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'main_menu_log-in' | trans }}{% endblock %}
+
+{% block body %}
+
+    {% if hasError %}
+        <div class="d-flex justify-content-center">
+            <div class="alert alert-danger text-center">{{ 'error_wrong_user_pass' | trans({},'validators') }}</div>
+        </div>
+    {% endif %}
+    <form class="form-signin text-center" action="{{ path('user_login') }}" method="post">
+        <img class="mb-3" src="/img/logo.png" alt="" width="48px" height="48px">
+        <input type="email" name="_username" id="inputEmail" class="form-control" placeholder="Email" required value="{{ username }}">
+        <input type="password" name="_password" id="inputPassword" class="form-control" placeholder="{{ 'label_password' | trans }}" required>
+        <input type="hidden" name="_target_path" value="{{ path('index') }}"/>
+        <button class="btn btn-lg btn-primary btn-block mt-3" type="submit">{{ 'main_menu_log-in' | trans }}</button>
+    </form>
+
+{% endblock %}

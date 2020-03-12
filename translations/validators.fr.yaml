@@ -1,0 +1,4 @@
+email_already_used: "Email déjà utilisé"
+movie_already_exists: "Ce film existe déjà"
+
+error_wrong_user_pass: "Nom d'utilisateur ou mot de passe incorrect"

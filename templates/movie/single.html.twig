@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ movie.title }}{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="text-center">
+            <h2>
+            {% if is_granted('ROLE_ADMIN') %}
+                <a class="text-white" href="{{ path('movie_edit', {'id': movie.id}) }}">{{ movie.title }}</a>
+            {% else %}
+                {{ movie.title }}
+            {% endif %}
+            {% include 'partials/rating.html.twig' with {'rating': movie.rating} %}</h2>
+
+        </div>
+        <div class="row mt-5">
+            <div class="col text-center">
+                <img src="/img/posters/{{ movie.poster }}" width="300px">
+            </div>
+            <div class="col">
+                <div class="row">
+                    <h4 class="text-center">{{ (movie.duration * 60) | date('H \\h i', '+00:00 GMT') }}
+                    | {{ movie.genre }} 
+                    | {{ movie.releaseDate | date('Y') }} 
+                    | {% include 'partials/status.html.twig' with {'status': movie.status} %}
+                    </h4>
+                    {{ movie.synopsis | raw }}
+                </div>
+                <div class="row mt-5">
+                    <div class="col"><a href="{{ path('index') }}" class="btn btn-block btn-primary"><i class="fas fa-arrow-left"></i></a></div>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <div class="col">
+                            {{ include('partials/form_delete_movie.html.twig') }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

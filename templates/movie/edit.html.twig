@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'title_page_edit_movie' | trans }}{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row mt-4">
+        <div class="col-lg-4 text-center">
+            <img src="/img/posters/{{ movie.poster }}" width="300px"> <br>
+        </div>
+        <div class="col-lg-8">
+            <h1>{{ 'title_page_edit_movie' | trans }}</h1>
+            {{ form_start(form) }}
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    {{ form_widget(form.title) }}
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col">
+                    {{ form_row(form.releaseDate, {value : movie.releaseDate}) }}
+                </div>
+                <div class="col">
+                    {{ form_row(form.duration, {value : movie.duration}) }} ({{ (movie.duration * 60) | date('H \\h i', '+00:00 GMT') }})
+                </div>
+                <div class="col">
+                    {{ form_row(form.rating, {value : movie.rating}) }}
+                </div>
+                <div class="col">
+                    {{ form_row(form.status, {value : movie.status}) }}
+                </div>
+            </div>
+            {{ form_row(form.genre, {value : movie.genre}) }}
+            <div class="row">
+
+            </div>
+            {{ form_row(form.synopsis, {value : movie.synopsis | raw}) }}
+            {{ form_row(form.poster, {value : movie.poster}) }}
+            {{ form_row(form.tmdbId, {value : movie.tmdbId}) }}
+            <input type="hidden" name="referer" value="{{ app.request.headers.get('referer') }}"/>
+            <button type="submit" class="btn btn-success btn-lg btn-block mt-4">{{ 'label_save' | trans }}</button>
+            {{ form_end(form) }}
+            <div class="row mt-4">
+                <div class="col">
+                    <a href="{{ path('movies_index') }}" class="btn btn-primary btn-block"><i class="fas fa-arrow-left"></i></a>
+                </div>
+                <div class="col">
+                    {{ include('partials/form_delete_movie.html.twig') }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
