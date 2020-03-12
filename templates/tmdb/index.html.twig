@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TMDB Config{% endblock %}
+
+{% block body %}
+    <p>
+        {% if synced %}
+            Pas de changement des genres sur TMDB (synchro depuis le {{ last_sync | date('d-m-Y') }})
+        {% else %}
+            Les genres ont été modifiés sur TMDB
+            <a class="btn btn-primary" href="{{ path('tmdb_sync_genres') }}" role="button">Synchroniser</a> 
+        {% endif %}
+    </p>
+    <p>
+        <button type="button" class="btn btn-primary tmdbconf">Voir la conf API</button>
+        <div id="tmdbconf" style="display:none; margin-top:1em;">
+            {{ tmdbconfig | raw }}
+        </div>
+    </p>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+    $('.tmdbconf').click(function(){
+        $('#tmdbconf').toggle(500);
+    });
+</script>
+{% endblock %}

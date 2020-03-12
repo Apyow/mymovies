@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ movie.title }}{% endblock %}
+
+{% block body %}
+    <div class="row mt-4">
+        <div class="col text-center">
+            <img src="https://image.tmdb.org/t/p/w300{{ movie.tmdbPoster }}">
+        </div>
+        <div class="col">
+            <div class="row justify-content-center mt-2 mx-2">
+                <p>
+                    <h4>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a class="text-white" href="{{ path('movie_edit', {'id': movie.id}) }}">{{ movie.title }}</a>
+                        {% else %}
+                            {{ movie.title }}
+                        {% endif %}
+                        &nbsp;{% include 'partials/rating.html.twig' with {'rating': movie.rating} %}&nbsp;
+                    </h4>
+                    <br />
+                    <h5>
+                        {{ (movie.duration * 60) | date('H \\h i', '+00:00 GMT') }}
+                        | {{ movie.releaseDate | date('Y') }} 
+                        | {% include 'partials/status.html.twig' with {'status': movie.status} %}
+                    </h5>
+                </p>
+                <p><h5>{{ movie.genre }}</h5></p>
+                {{ movie.synopsis | raw }}
+            </div>
+            <div class="row mt-2">
+                <div class="col"><a href="{{ path('index') }}" class="btn btn-block btn-primary"><i class="fas fa-arrow-left"></i></a></div>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <div class="col">
+                        {% include 'partials/form_delete_movie.html.twig' with {'btnclass': "btn-block"} %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

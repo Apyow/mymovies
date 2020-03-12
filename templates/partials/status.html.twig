@@ -1,0 +1,13 @@
+{% if status == 1 %}
+    <span class="badge badge-pill badge-dark">{{ 'status_nothd' | trans }}</span>
+{% elseif status == 2 %}
+    <span class="badge badge-pill badge-secondary">HD</span>
+{% elseif status == 3 %}
+    <span class="badge badge-pill badge-success">{{ 'status_todl' | trans }}</span>
+{% elseif status == 4 %}
+    <span class="badge badge-pill badge-warning">{{ 'status_tosee' | trans }}</span>
+{% elseif status == 5 %}
+    <span class="badge badge-pill badge-info">{{ 'status_seen' | trans }}</span>
+{% else %}
+    no status
+{% endif %}

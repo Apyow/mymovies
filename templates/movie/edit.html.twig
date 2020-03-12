@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'title_page_edit_movie' | trans }}{% endblock %}
+
+{% block body %} 
+{{ form_start(form) }}
+    <div class="row mt-4">
+        <div class="col-lg-4 text-center mb-4">
+            <img src="{{ movie.tmdbPoster != '/notfound.jpg' ? 'https://image.tmdb.org/t/p/w185' ~ movie.tmdbPoster : '/img/posters/thumbs/notfound.jpg' }}">
+            {{ form_row(form.tmdbPoster, {value : movie.tmdbPoster}) }}
+        </div>
+        <div class="col-lg-8">
+                {{ form_row(form.title, {value : movie.title}) }}
+                <div class="row">
+                    <div class="col-3">
+                        {{ form_row(form.rating, {value : movie.rating}) }}
+                    </div>
+                    <div class="col">
+                        {{ form_row(form.status, {selected : movie.status }) }}
+                    </div>
+                    <div class="col">
+                        {{ form_row(form.tmdbId, {selected : movie.tmdbId }) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        {{ form_row(form.releaseDate, {value : movie.releaseDate}) }}
+                    </div>
+                    <div class="col">
+                        {{ form_label(form.duration) }} ({{ (movie.duration * 60) | date('H \\h i', '+00:00 GMT')}})
+                        {{ form_widget(form.duration, {selected : movie.duration }) }}
+                    </div>
+                </div>
+                {{ form_row(form.genre, {value : movie.genre}) }}
+                {{ form_row(form.synopsis, {value : movie.synopsis | raw}) }}
+                <input type="hidden" name="referer" value="{{ referer }}"/>
+                <div class="row mt-2">
+                    <div class="col">
+                        <a href="{{ referer }}" class="btn btn-block btn-lg btn-danger">{{ 'label_cancel' | trans }}</a>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-block btn-lg btn-success">{{ button_label|default('label_edit' | trans) }}</button>
+                    </div>
+{{ form_end(form) }}
+                    <div class="col">
+                        {% include 'partials/form_delete_movie.html.twig' with {'btnclass': "btn-block btn-lg"} %}
+                    </div>
+                    <div class="col">
+                        <button id="syncButton" data-path="{{ path('movie_sync', {'tmdbId': movie.tmdbId}) }}" class="btn btn-block btn-lg btn-primary" type="button" >{{ button_label|default('label_sync' | trans) }}</button>
+                    </div>
+                </div>
+        </div>
+    </div>
+    <div class="modal fade" id="syncModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content bg-success">
+                <div class="modal-body">
+                    <h5 class="mb-0 text-center">{{ 'text_sync_tmdb' | trans }}</h5>
+                </div>
+            </div>
+        </div>
+    </div>  
+{% endblock %}
+
+{% block javascripts %}
+    <script src="/js/syncMovie.js"></script>
+{% endblock %}

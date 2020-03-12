@@ -1,0 +1,46 @@
+security:
+    encoders:
+        App\Entity\User:
+            algorithm: bcrypt
+            
+    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    providers:
+        # used to reload user from session & other features (e.g. switch_user)
+        in_database:
+            entity:
+                class: App\Entity\User
+                property: email
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            anonymous: true
+            provider: in_database
+            form_login: 
+                login_path: user_login
+                check_path: user_login
+                # default_target_path: index
+                # always_use_default_target_path: true
+            logout:
+                path: user_logout
+                target: user_login
+
+            # activate different ways to authenticate
+
+            # http_basic: true
+            # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
+
+            # form_login: true
+            # https://symfony.com/doc/current/security/form_login_setup.html
+
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
+    access_control:
+        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/tmdb, roles: ROLE_ADMIN }
+        - { path: ^/movies, roles: ROLE_ADMIN }
+        - { path: ^/movie/add, roles: ROLE_ADMIN }
+        - { path: ^/movie/edit, roles: ROLE_ADMIN }
+        - { path: ^/movie/delete, roles: ROLE_ADMIN }
+        - { path: ^/movie/sync, roles: ROLE_ADMIN }

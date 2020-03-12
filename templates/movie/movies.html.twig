@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'title_app' | trans }}{% endblock %}
+
+{% block body %}
+    <table class="table table-hover table-sm" id="movies">
+        <thead>
+            <tr>
+                <th>{{ 'label_title' | trans }}</th>
+                <th>{{ 'label_release_date' | trans }}</th>
+                <th>{{ 'label_duration' | trans }}</th>
+                <th>{{ 'label_genres' | trans }}</th>
+                <th>{{ 'label_rating' | trans }}</th>
+                <th class="text-center">{{ 'label_status' | trans }}</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for movie in movies %}
+
+            {% if movie.status == 3 %}
+                {% set statusColor = 'success' %}    
+            {% elseif movie.status == 4 %}
+                {% set statusColor = 'warning' %}
+            {% elseif movie.status == 5 %}
+                {% set statusColor = 'info' %}
+            {% else %}
+                {% set statusColor = 'default' %}
+            {% endif %}
+
+            <tr>
+                <td><a href="{{ path('movie_edit', {'id': movie.id}) }}">{{ movie.title }}</a></td>
+                <td>{{ movie.releaseDate }}</td>
+                <td>{{ (movie.duration * 60) | date('H \\h i', '+00:00 GMT') }}</td>
+                <td>{{ movie.genre }}</td>
+                <td><span class="d-none">{{ movie.rating }}</span>{% include 'partials/rating.html.twig' with {'rating': movie.rating} %}</td>
+                <td class="text-center">{% include 'partials/status.html.twig' with {'status': movie.status} %}</td>
+                <td>
+                    {{ include('partials/form_delete_movie.html.twig') }}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">{{ 'text_noresults' | trans }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block javascripts %}
+    {{ include('partials/datatable.html.twig') }}
+{% endblock %}

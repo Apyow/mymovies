@@ -1,0 +1,45 @@
+{% set container = '' %}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'title_app' | trans }}{% endblock %}
+
+{% block body %}
+  {% if app.user %}
+    <section class="gallery">
+      <div class="grid">
+        {% set duration = "" %}
+        {% for movie in movies %}
+            {% if movie.duration < 90 %}
+              {% set duration = 'Less1h30' %}
+            {% elseif movie.duration in range(90, 110) %}
+              {% set duration = 'Between1h30and1h50' %}
+            {% elseif movie.duration in range(110, 130) %}
+              {% set duration = 'Between1h50and2h10' %}
+            {% elseif movie.duration > 130 %}
+              {% set duration = 'Greater2h10' %}
+            {% endif %}
+            <div class="movie {{ movie.genre | replace({', ': ' '}) }} rate{{ movie.rating }} status{{ movie.status }} {{ duration }}">
+                <span class="d-none">
+                  <span class="release">{{ movie.releaseDate }}</span>
+                  <span class="title">{{ movie.title }}</span>
+                  <span class="updated">{{ movie.updatedAt | date('U') }}</span>
+                </span>
+                <a href="{{ path('movie_show', {'id': movie.id}) }}">
+                    <img src="https://image.tmdb.org/t/p/w185{{ movie.tmdbPoster }}" data-toggle="tooltip" data-placement="top" data-html="true" 
+                    title="{{ movie.title }} - {{ movie.releaseDate | date('Y') }} - {{ (movie.duration * 60) | date('H \\h i', '+00:00 GMT') }}<br> 
+                    {{ movie.genre }} <br>
+                    rate{{ movie.rating }} - status{{ movie.status }}" alt="{{ movie.title }}">
+                </a>
+            </div>
+        {% endfor %}
+        <div class="noresults">{{ 'text_noresults' | trans }}</div>
+      </div>
+    </section>
+  {% endif %}
+{% endblock %}
+
+{% block javascripts %}
+<script src="/js/isotope.pkgd.min.js"></script>
+<script src="/js/indexGallery.js"></script>
+{% endblock %}

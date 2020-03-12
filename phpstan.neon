@@ -1,0 +1,9 @@
+parameters:
+	ignoreErrors:
+		- '#Call to an undefined method [a-zA-Z0-9\\_<>]+::jobTitle()#'
+		- '#Call to an undefined method [a-zA-Z0-9\\_<>]+::getConnection()#'
+		- '#Method App\\Kernel::configure[a-zA-Z0-9\\_<>]#'        
+	checkMissingIterableValueType: false
+	checkGenericClassInNonGenericObjectType: false    
+includes:
+	- vendor/phpstan/phpstan-doctrine/extension.neon

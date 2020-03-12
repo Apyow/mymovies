@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'title_page_inprogress' | trans }}{% endblock %}
+
+{% block body %}
+    <table class="table table-hover table-sm" id="moviesInprogress">
+        <thead>
+            <tr>
+                <th>{{ 'label_title' | trans }}</th>
+                <th>{{ 'label_release_date' | trans }}</th>
+                <th>{{ 'label_status' | trans }}</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for movie in moviesInprogress %}
+            {% if movie.releaseDate|date("U") < "now"|date("U" ) and movie.status == 3 %}
+                {% set statusColor, statusText = "success", "status_todl" %}
+            {% elseif movie.status == 3 %}
+                {% set statusColor, statusText = "secondary", "status_todl" %}
+            {% elseif movie.status == 4 %}
+                {% set statusColor, statusText = "warning", "status_tosee" %}
+            {% elseif movie.status == 5 %}
+                {% set statusColor, statusText = "info", "status_seen" %}
+            {% endif %}
+            <tr class="table-{{statusColor}}">
+                <td><a href="{{ path('movie_edit', {'id': movie.id}) }}">{{ movie.title }}</a></td>
+                <td>{{ movie.releaseDate }}</td>
+                <td>{{ statusText | trans }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">{{ 'text_noresults' | trans }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block javascripts %}
+    {{ include('partials/datatable.html.twig') }}
+{% endblock %}

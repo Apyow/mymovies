@@ -1,0 +1,25 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top mb-2">
+  {% if app.user %}
+    <a class="navbar-brand" href="/"><i class="fas fa-home"></i></a>
+    <li class="nav-item dropdown">
+      <a class="navbar-brand dropdown-toggle text-light" href="#" data-toggle="dropdown" id="userDropdown"><i class="fas fa-user-alt"></i></a>
+      <div class="dropdown-menu" aria-labelledby="userDropdown">
+        <a class="dropdown-item" href="{{ path('user_edit') }}">{{ 'main_menu_user_edit'|trans }}</a>
+        {% if is_granted('ROLE_ADMIN') %}
+            <a class="dropdown-item" href="{{ path('user_create') }}">{{ 'main_menu_user_create'|trans }}</a>
+            <a class="dropdown-item" href="#">Stats</a>
+            <a class="dropdown-item" href="{{ path('tmdb_config') }}">TMDB</a>
+        {% endif %}
+        <a class="dropdown-item" href="{{ path('user_logout') }}">{{ 'main_menu_logout'|trans }}</a>
+      </div>
+    </li>
+    {% if is_granted('ROLE_ADMIN') %}
+        <a class="navbar-brand" href="{{ path('movie_add') }}" title="{{ 'main_menu_add'|trans }}"><i class="fas fa-plus"></i></a>
+        <a class="navbar-brand" href="{{ path('movies_index') }}" title="{{ 'main_menu_list'|trans }}"><i class="fas fa-list"></i></a>
+        <a class="navbar-brand" href="{{ path('movies_inprogress') }}" title="{{ 'main_menu_inprogress'|trans }}"><i class="far fa-hourglass"></i></a>
+    {% endif %}
+    {% if app.request.get('_route') == 'index' %}
+      {% include 'partials/filters.html.twig' %}
+    {% endif %}
+  {% endif %}
+</nav>

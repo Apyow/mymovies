@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'title_page_add' | trans }}{% endblock %}
+
+{% block body %}
+    <form method="post" accept-charset="utf-8">
+        <div class="form-group" >
+            <input data-path="{{path('movie_code_search')}}" id="search" class="form-control form-control-lg" type="text" name="ajaxsearch" placeholder="{{ 'placeholder_search_movie' | trans }}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+        </div>
+    </form>
+    <div id="results"></div>
+
+    {% if movie and posters is not null %}
+        <div class="row">
+            <div class="col-lg-4 text-center mb-4">
+                <img src="{{ posters.small }}">
+            </div>
+            <div class="col-lg-8">
+                {{ form_start(form) }}
+                    {{ form_widget(form.title, {value : movie.title}) }}
+                    <div class="row">
+                        <div class="col">
+                            {{ form_row(form.rating, {value : 0}) }}
+                        </div>
+                        <div class="col">
+                            {{ form_row(form.status, {value : "3"}) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <p class="text-center">
+                                {{ movie.release_date | date('d-m-Y') }} -- {{ (movie.runtime * 60) | date('H \\h i', '+00:00 GMT')}} -- {{ movie.genres }}                 
+                            </p>
+                            <p class="text-justify">
+                                {{ movie.overview }}
+                            </p>
+                        </div>
+                    </div>
+                    {% if movie.poster_path is null %}
+                        {% set poster = "/notfound.jpg" %}
+                    {% else %}
+                        {% set poster = movie.poster_path %}
+                    {% endif %}
+                    <span class="d-none">
+                        {{ form_widget(form.tmdbId, {value : movie.id}) }}
+                        {{ form_widget(form.tmdbPoster, {value : poster}) }}
+                        {{ form_widget(form.releaseDate, {value : movie.release_date }) }}
+                        {{ form_widget(form.duration, {value : movie.runtime}) }}
+                        {{ form_widget(form.genre, {value : movie.genres}) }}
+                        {{ form_widget(form.synopsis, {value : movie.overview | raw}) }}
+                    </span>
+                    <button class="btn btn-block btn-primary mt-2">{{ button_label|default('label_save' | trans) }}</button>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block javascripts %}
+    <script src="/js/addMovie.js"></script>
+{% endblock %}
